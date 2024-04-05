@@ -136,6 +136,9 @@ CloudFormation do
     })
     RoleArn FnGetAtt(:EksClusterRole, :Arn)
     Version eks_version unless eks_version.nil?
+    AccessConfig({
+      AuthenticationMode: API_AND_CONFIG_MAP
+    })
   }
   
 
