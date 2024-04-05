@@ -128,6 +128,7 @@ CloudFormation do
 
   cluster_name = external_parameters.fetch(:cluster_name, '')
   eks_version = external_parameters.fetch(:eks_version, nil)
+  auth_mode = external_parameters.fetch(:authentication_mode, 'API_AND_CONFIG_MAP')
   EKS_Cluster(:EksCluster) {
     Name FnSub(cluster_name) unless cluster_name.empty?
     ResourcesVpcConfig({
@@ -137,7 +138,7 @@ CloudFormation do
     RoleArn FnGetAtt(:EksClusterRole, :Arn)
     Version eks_version unless eks_version.nil?
     AccessConfig({
-      AuthenticationMode: "API_AND_CONFIG_MAP"
+      AuthenticationMode: auth_mode
     })
   }
   
